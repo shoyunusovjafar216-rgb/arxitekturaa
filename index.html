@@ -1126,81 +1126,59 @@
                 });
             });
 
-            // --- 3. Animations (GSAP) ---
-
-            // Initial Hero Reveal
-            gsap.set('.hero-content, .scroll-indicator', { opacity: 0 });
-            gsap.set('.hero-image', { scale: 1.25 });
-            gsap.set('.reveal-text-line span', { translateY: '110%' });
-
-            const heroTL = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.5 } });
-            heroTL.to('.hero-content', { opacity: 1, duration: 0.5 })
-                  .to('.hero-image', { scale: 1.1, duration: 2.5, ease: 'power2.out' }, '-=0.5')
-                  .to('.reveal-text-line span', { translateY: 0, stagger: 0.15 }, '-=2')
-                  .to('.hero-content .btn-premium', { opacity: 1, y: 0, duration: 1 }, '-=1')
-                  .to('.scroll-indicator', { opacity: 1, duration: 1 }, '-=0.5');
-
-            // Hero Parallax on Scroll
-            gsap.to('.hero-image', {
-                yPercent: 30,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: '#hero',
-                    start: 'top top',
-                    end: 'bottom top',
-                    scrub: true
-                }
+                        // Hero Animations
+            gsap.to('.hero-content, .scroll-indicator', { 
+                opacity: 1, 
+                duration: 1, 
+                delay: 0.2 
+            });
+            
+            gsap.to('.hero-image', { 
+                scale: 1, 
+                duration: 2, 
+                ease: 'power2.out' 
             });
 
-            // Section Elements Reveal (Global)
+            gsap.to('.reveal-text-line span', { 
+                translateY: 0, 
+                duration: 1.2, 
+                stagger: 0.15, 
+                ease: 'power4.out',
+                delay: 0.3
+            });
+
+            // Scroll animations for sections
             const revealElements = document.querySelectorAll('.reveal-element');
             revealElements.forEach(el => {
-                gsap.fromTo(el, {
-                    opacity: 0,
-                    y: 40
-                }, {
-                    opacity: 1,
-                    y: 0,
+                gsap.fromTo(el, 
+                    { opacity: 0, y: 30 }, 
+                    {
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: el,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+
+            const revealImage = document.querySelector('.reveal-image');
+            if (revealImage) {
+                gsap.to(revealImage, {
+                    clipPath: 'inset(0% 0% 0% 0%)',
                     duration: 1.2,
-                    ease: 'power3.out',
+                    ease: 'power3.inOut',
                     scrollTrigger: {
-                        trigger: el,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none' // Play once
+                        trigger: revealImage,
+                        start: 'top 80%'
                     }
                 });
-            });
+            }
 
-            // Image Clip Reveal (About Section)
-            const revealImage = document.querySelector('.reveal-image');
-            gsap.to(revealImage, {
-                clipPath: 'inset(0% 0% 0% 0%)',
-                duration: 1.5,
-                ease: 'power3.inOut',
-                scrollTrigger: {
-                    trigger: revealImage,
-                    start: 'top 75%',
-                    toggleActions: 'play none none none'
-                }
-            });
-            
-            // Text Hover Effects (Optional detailed interactions)
-            const premiumButtons = document.querySelectorAll('.btn-premium, .nav-link, .property-link, .social-link');
-            premiumButtons.forEach(btn => {
-                // Potential magnetic button logic could be added here
-            });
-            
-            // Statistics Counter Animation (Simplest version)
-            const statItems = document.querySelectorAll('.stat-item');
-            statItems.forEach(item => {
-                ScrollTrigger.create({
-                    trigger: item,
-                    start: 'top 90%',
-                    onEnter: () => item.classList.add('active-stat') // Use class for simple CSS animation trigger if needed
-                });
-            });
-
-        });
     </script>
 </body>
 </html>
